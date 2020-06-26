@@ -1,0 +1,67 @@
+{% extends 'storeapp/base.html' %}
+
+{% block body %}
+
+
+<form method="post" onsubmit="handleSearch(event)">
+    {% csrf_token %}
+    <div class="col-lg-5">
+<input type="text" name="srh" id="srh" class="form-control" placeholder="Enter Barcode"autofocus  >
+    </div>
+    <label class="col-lg-2">
+        <button type="submit" class="btn btn-danger ">Search</button>
+    </label>
+</div>
+</form><br><br>
+
+<div><h1> Total: <div id="total">0</div></h1></div>
+
+<table class="table" id="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ProductName</th>
+      <th scope="col">Barcode</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">SellingPrice</th>
+    </tr>
+  </thead>
+
+  <tbody id="tbody">
+
+  </tbody>
+
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script>
+let countob = {'count':0,'total':0}
+
+function handleSearch(event) {
+
+    event.preventDefault();
+   axios.get('http://localhost:8000/sale/?srh='+document.getElementById("srh").value)
+  .then(function (response) {
+    var newRow = document.getElementById('table').getElementsByTagName('tbody')[0].insertRow(0);
+
+// Insert a row in the table at the last row
+
+
+// Insert a cell in the row at index 0
+var ProductName  = newRow.insertCell(0);
+var Barcode  = newRow.insertCell(1);
+var QuantityAvialable  = newRow.insertCell(2);
+var SellingPrice  = newRow.insertCell(3);
+var finaldata = response.data[0];
+var fields = finaldata.fields
+ProductName.appendChild(document.createTextNode(fields.ProductName))
+Barcode.appendChild(document.createTextNode(finaldata.pk))
+QuantityAvialable.appendChild(document.createTextNode(fields.QuantityAvilable))
+SellingPrice.appendChild(document.createTextNode(fields.SellingPrice))
+countob.total = countob.total+ fields.SellingPrice
+document.getElementById("total").innerHTML = countob.total
+document.getElementById('srh').value='';
+  })
+}
+
+</script>
+
+{% endblock %}

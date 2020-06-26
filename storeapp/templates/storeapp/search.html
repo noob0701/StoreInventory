@@ -1,0 +1,51 @@
+{% extends 'storeapp/base.html' %}
+
+{% block body %}
+
+<form method="post" action="/search/">
+    {% csrf_token %}
+    <div class="col-lg-5">
+<input type="text" name="srh" class="form-control" placeholder="Enter Barcode"autofocus>
+    </div>
+    <label class="col-lg-2">
+        <button type="submit" class="btn btn-danger ">Search</button>
+    </label>
+</div>
+</form><br><br>
+<div>
+    {% if messages %}
+        <ul class="messages">
+        {% for k in messages %}
+        <li style="color: red">{{ k }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ProductName</th>
+      <th scope="col">Barcode</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">SellingPrice</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  {% for i in sr %}
+  <tbody>
+    <tr>
+      <th scope="row">{{i.ProductName}}</th>
+      <td>{{i.Barcode}}</td>
+      <td>{{i.QuantityAvilable}}</td>
+      <td>{{i.SellingPrice}}</td>
+      <td>{{i.total}}</td>
+
+
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+
+
+{% endblock %}

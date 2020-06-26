@@ -1,0 +1,12 @@
+{% extends 'storeapp/base.html' %}
+
+{% block body%}
+<form method="post">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Update" class="btn btn-success">
+
+
+</form>
+
+{% endblock %}

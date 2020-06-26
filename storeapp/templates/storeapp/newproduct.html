@@ -1,0 +1,61 @@
+{% extends 'storeapp/base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    {% block title %} New Product {% endblock %}
+
+</head>
+{% block body%}
+    <form method="POST" action="{%url "new"%}">
+		{% csrf_token %}
+    {% load crispy_forms_tags %}
+		{{form }}
+
+		<input type="submit" name="Create User" class="btn btn-success value="Submit">
+
+	</form>
+	{{form.errors}}<br><br>
+
+  <h1 style="font-size: 5.5rem;text-align: center;">Rs.{{total}} {{total2}}</h1>
+  
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Number</th>
+      <th scope="col">ProductName</th>
+      <th scope="col">Barcode</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">SellingPrice</th>
+      <th scope="col">CostPrice</th>
+      <th scope="col">Total</th>
+      <th scope="col">Actions</th>
+      <th scope="col">Delete</th>
+
+
+    </tr>
+  </thead>
+  {% for i in product %}
+  <tbody>
+    <tr>
+    <th scope="row">{{forloop.counter}}</th>
+      <th scope="row">{{i.ProductName}}</th>
+      <td>{{i.Barcode}}</td>
+      <td>{{i.QuantityAvilable}}</td>
+      <td>{{i.SellingPrice}}</td>
+      <td>{{i.CostPrice}}</td>
+      <th scope="row">{{i.total}}</th>
+      <td> <a href="dynamic/{{i.Barcode}}/edit/">Edit</a> </td>
+      <td> <a href="dynamic/{{i.Barcode}}/delete/">Delete</a> </td>
+      
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+
+
+{% endblock %}
+
+</html>
+
